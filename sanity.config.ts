@@ -15,6 +15,8 @@ import { schema } from "./shared/sanity/schema";
 import { resolve } from "@/shared/sanity/presentation/resolve";
 import { structure } from "./shared/sanity/structure";
 import { codeInput } from "@sanity/code-input";
+import { simplerColorInput } from "sanity-plugin-simpler-color-input";
+import { COLOR_VARIANTS } from "./shared/sanity/schemas/blocks/shared/color-variant";
 
 import { itITLocale } from "@sanity/locale-it-it";
 
@@ -40,5 +42,17 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
     codeInput(),
+    simplerColorInput({
+      defaultColorFormat: "hex",
+      defaultColorList: [
+        ...COLOR_VARIANTS.map((variant) => ({
+          label: variant.title,
+          value: `var(--${variant.value})`,
+        })),
+        { label: "Personalizzato...", value: "custom" },
+      ],
+      enableSearch: true,
+      showColorValue: true,
+    }),
   ],
 });

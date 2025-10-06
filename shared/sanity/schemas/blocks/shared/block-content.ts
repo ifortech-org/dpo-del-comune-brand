@@ -45,6 +45,16 @@ export default defineType({
               },
             ],
           },
+          {
+            title: "Colore Testo",
+            name: "textColor",
+            type: "textColor",
+          },
+          {
+            title: "Evidenziatore",
+            name: "highlightColor",
+            type: "highlightColor",
+          },
         ],
       },
     }),

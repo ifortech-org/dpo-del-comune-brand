@@ -108,6 +108,19 @@ const portableTextComponents: PortableTextProps["components"] = {
         </Link>
       );
     },
+    textColor: ({ children, value }) => (
+      <span style={{ color: value?.value }}>{children}</span>
+    ),
+    highlightColor: ({ children, value }) => (
+      <span
+        style={{
+          backgroundColor: value?.value,
+          padding: "0.125rem 0.25rem",
+          borderRadius: "0.25rem",
+        }}>
+        {children}
+      </span>
+    ),
   },
   list: {
     bullet: ({ children }) => (
