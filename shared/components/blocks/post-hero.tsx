@@ -1,5 +1,4 @@
 import Image from "next/image";
-import PostDate from "@/shared/components/post-date";
 import { Mail } from "lucide-react";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { POST_QUERYResult } from "@/sanity.types";
@@ -11,7 +10,6 @@ export default function PostHero({
   author,
   image,
   slug,
-  _createdAt,
 }: PostHeroProps) {
   return (
     <>
@@ -51,9 +49,7 @@ export default function PostHero({
               </div>
             )}
             {author?.name && <div>{author.name}</div>}
-            <div className="hidden md:block">•</div>
           </div>
-          <PostDate date={_createdAt as string} />
         </div>
         <div className="flex flex-col md:flex-row gap-2">
           <div>Condividi</div>
