@@ -6,11 +6,22 @@ export default {
   __experimental_actions: ["update", "publish"], // Disabilita create/delete
   fields: [
     {
-      name: "logo",
-      title: "Logo",
+      name: "logoLight",
+      title: "Logo (Light)",
       type: "image",
       description:
-        "Carica il logo del sito (preferibilmente SVG o PNG trasparente)",
+        "Carica il logo per la light mode (preferibilmente SVG o PNG trasparente)",
+      options: {
+        hotspot: true,
+      },
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: "logoDark",
+      title: "Logo (Dark)",
+      type: "image",
+      description:
+        "Carica il logo per la dark mode (preferibilmente SVG o PNG trasparente)",
       options: {
         hotspot: true,
       },
@@ -26,7 +37,7 @@ export default {
   ],
   preview: {
     select: {
-      media: "logo",
+      media: "logoLight",
       title: "alt",
     },
     prepare(selection: any) {

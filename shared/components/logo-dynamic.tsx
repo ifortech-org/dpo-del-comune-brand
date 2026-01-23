@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { fetchSiteLogo } from "@/shared/sanity/lib/siteLogo";
 import { urlFor } from "@/shared/sanity/lib/image";
 
@@ -11,7 +12,12 @@ export default function Logo({
   className?: string;
   [key: string]: any;
 }) {
-  const [logo, setLogo] = useState<{ logo?: any; alt?: string } | null>(null);
+  const { resolvedTheme, theme } = useTheme();
+  const [logo, setLogo] = useState<{
+    logoLight?: any;
+    logoDark?: any;
+    alt?: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,16 +64,28 @@ export default function Logo({
     );
   }
 
-  if (logo && logo.logo) {
+  const activeTheme =
+    resolvedTheme === "dark" || theme === "dark" ? "dark" : "light";
+  const selectedLogo =
+    activeTheme === "dark" ? logo?.logoDark : logo?.logoLight;
+  const fallbackLogo =
+    activeTheme === "dark" ? logo?.logoLight : logo?.logoDark;
+
+  if (logo && (selectedLogo || fallbackLogo)) {
+    const asset = selectedLogo || fallbackLogo;
     return (
-      <div
-        className="flex items-center justify-center aspect-[16/9] w-full"
+      <img
+        className={className}
+        src={urlFor(asset).url()}
+        alt={logo.alt || "Logo"}
         style={{
-          backgroundImage: `url(${urlFor(logo.logo).url()})`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}></div>
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          ...props.style,
+        }}
+        {...props}
+      />
     );
   }
 

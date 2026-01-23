@@ -56,7 +56,7 @@ export default function PostHero({
           <PostDate date={_createdAt as string} />
         </div>
         <div className="flex flex-col md:flex-row gap-2">
-          <div>Share this post</div>
+          <div>Condividi</div>
           <div className="flex gap-2">
             <a
               className="hover:opacity-70"

@@ -12,7 +12,7 @@ export const formatDate = (date: string): string => {
     month: "long",
     day: "numeric",
   };
-  return dateObj.toLocaleDateString("en-US", options);
+  return dateObj.toLocaleDateString("it-IT", options);
 };
 
 // Define the types for block content and children
