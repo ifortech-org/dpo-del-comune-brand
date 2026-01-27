@@ -17,7 +17,7 @@ function PostList({ posts }: { posts: POSTS_QUERYResult }) {
 
   // Effetto per aggiornare la categoria selezionata quando cambia il parametro di ricerca
   useEffect(() => {
-    const category = searchParams.get("category");
+    const category = searchParams?.get("category") ?? null;
     setSelectedCategory(category);
   }, [searchParams]);
 

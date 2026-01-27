@@ -25,8 +25,9 @@ export default function PageTracker() {
 
   useEffect(() => {
     // Ricostruisci l'URL completo con i parametri di query
+    const queryString = searchParams?.toString() ?? "";
     const fullUrl = `${window.location.origin}${pathname}${
-      searchParams.toString() ? `?${searchParams.toString()}` : ""
+      queryString ? `?${queryString}` : ""
     }`;
 
     // Verifica se questo URL è già stato tracciato recentemente
@@ -84,7 +85,7 @@ export default function PageTracker() {
           text: buttonElement.innerText || "No text",
           trackId: trackId,
           className: buttonElement.className || undefined,
-          path: pathname,
+          path: pathname ?? "",
           timestamp: new Date().toISOString(),
           ...trackAttributes, // Includi attributi personalizzati
         });
