@@ -94,13 +94,21 @@ export default function BlogContactForm({
     });
 
     const response = await request;
-    if (!response.ok) {
+    let data: { success?: boolean; message?: string } | null = null;
+
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+
+    if (!response.ok || !data?.success) {
       setIsverified(false);
+      toast(data?.message ?? "Verifica hCaptcha fallita, riprova.");
       return;
     }
 
-    const data = await response.json();
-    setIsverified(Boolean(data?.success));
+    setIsverified(true);
   }
 
   return (
