@@ -23,7 +23,7 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PAGE_QUERYResult } from "@/sanity.types";
-import { HCaptcha } from "@/shared/components/ui/hcaptcha";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 type ContactFormProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -204,8 +204,10 @@ function ContactForm({
               </div>
               <div>
                 <HCaptcha
-                  siteKey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
                   onVerify={handleCaptchaSubmission}
+                  onExpire={() => setIsverified(false)}
+                  onError={() => setIsverified(false)}
                 />
                 <p className="text-xs my-2">
                   Cliccando "Invia" si dichiara di aver preso visione

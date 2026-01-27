@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { POST_QUERYResult } from "@/sanity.types";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { Button } from "@/shared/components/ui/button";
-import { HCaptcha } from "@/shared/components/ui/hcaptcha";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import {
   Dialog,
   DialogClose,
@@ -216,8 +216,10 @@ export default function BlogContactForm({
           </div>
           <div>
             <HCaptcha
-              siteKey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
               onVerify={handleCaptchaSubmission}
+              onExpire={() => setIsverified(false)}
+              onError={() => setIsverified(false)}
             />
             <p className="text-xs my-2">
               Cliccando "Invia" si dichiara di aver preso visione
