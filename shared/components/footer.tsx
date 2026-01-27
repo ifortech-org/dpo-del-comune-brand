@@ -14,7 +14,7 @@ const navItems = [
   },
   {
     label: "About",
-    href: "/about",
+    href: "/",
     target: false,
   },
 ];
