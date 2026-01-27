@@ -8,6 +8,7 @@ import {
   fetchSanityPostsStaticParams,
 } from "@/shared/sanity/lib/fetch";
 import { generatePageMetadata } from "@/shared/sanity/lib/metadata";
+import BlogContactForm from "@/shared/components/blog/blog-contact-form";
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
@@ -64,6 +65,7 @@ export default async function PostPage(props: {
           <Breadcrumbs links={links} />
           <PostHero {...post} />
           {post.body && <PortableTextRenderer value={post.body} />}
+          <BlogContactForm image={post.image} />
         </article>
       </div>
     </section>
