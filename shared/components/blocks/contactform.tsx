@@ -20,10 +20,10 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Textarea } from "../ui/textarea";
-import { useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useState } from "react";
 import { toast } from "sonner";
 import { PAGE_QUERYResult } from "@/sanity.types";
+import { HCaptcha } from "@/shared/components/ui/hcaptcha";
 
 type ContactFormProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -38,8 +38,6 @@ function ContactForm({
 }: ContactFormProps) {
   let imageUrl =
     side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
-  let captchaRef = useRef<ReCAPTCHA>(null);
-
   let [isVerified, setIsverified] = useState(false);
   let [formData, setFormData] = useState({
     email: "",
@@ -54,7 +52,7 @@ function ContactForm({
     e.preventDefault();
 
     if (!isVerified) {
-      toast("Verifica reCAPTCHA fallita, Per favore, completa il reCAPTCHA.");
+      toast("Verifica hCaptcha fallita, Per favore, completa hCaptcha.");
       return;
     }
 
@@ -80,7 +78,12 @@ function ContactForm({
       });
   }
 
-  async function handleCaptchaSubmission(token: string | null) {
+  async function handleCaptchaSubmission(token: string) {
+    if (!token) {
+      setIsverified(false);
+      return;
+    }
+
     // Server function to verify captcha
     const request = fetch("/api/captcha", {
       method: "POST",
@@ -88,16 +91,18 @@ function ContactForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: token,
+        "h-captcha-response": token,
       }),
     });
 
     const response = await request;
-    if (response.ok) {
-      setIsverified(true);
-    } else {
+    if (!response.ok) {
       setIsverified(false);
+      return;
     }
+
+    const data = await response.json();
+    setIsverified(Boolean(data?.success));
   }
 
   return (
@@ -190,10 +195,9 @@ function ContactForm({
                 />
               </div>
               <div>
-                <ReCAPTCHA
-                  ref={captchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  onChange={handleCaptchaSubmission}
+                <HCaptcha
+                  siteKey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  onVerify={handleCaptchaSubmission}
                 />
                 <p className="text-xs my-2">
                   Cliccando "Invia" si dichiara di aver preso visione

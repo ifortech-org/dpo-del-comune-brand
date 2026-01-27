@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { MouseEvent } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
 import { POST_QUERYResult } from "@/sanity.types";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { Button } from "@/shared/components/ui/button";
+import { HCaptcha } from "@/shared/components/ui/hcaptcha";
 import {
   Dialog,
   DialogClose,
@@ -37,8 +37,6 @@ export default function BlogContactForm({
 }: BlogContactFormProps) {
   const hasImage = Boolean(image && image.asset?._id);
   const imageUrl = hasImage ? urlFor(image!).quality(100).url() : "";
-  const captchaRef = useRef<ReCAPTCHA>(null);
-
   const [isVerified, setIsverified] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -53,7 +51,7 @@ export default function BlogContactForm({
     e.preventDefault();
 
     if (!isVerified) {
-      toast("Verifica reCAPTCHA fallita, Per favore, completa il reCAPTCHA.");
+      toast("Verifica hCaptcha fallita, Per favore, completa hCaptcha.");
       return;
     }
 
@@ -79,23 +77,30 @@ export default function BlogContactForm({
       });
   }
 
-  async function handleCaptchaSubmission(token: string | null) {
+  async function handleCaptchaSubmission(token: string) {
+    if (!token) {
+      setIsverified(false);
+      return;
+    }
+
     const request = fetch("/api/captcha", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: token,
+        "h-captcha-response": token,
       }),
     });
 
     const response = await request;
-    if (response.ok) {
-      setIsverified(true);
-    } else {
+    if (!response.ok) {
       setIsverified(false);
+      return;
     }
+
+    const data = await response.json();
+    setIsverified(Boolean(data?.success));
   }
 
   return (
@@ -202,10 +207,9 @@ export default function BlogContactForm({
             />
           </div>
           <div>
-            <ReCAPTCHA
-              ref={captchaRef}
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-              onChange={handleCaptchaSubmission}
+            <HCaptcha
+              siteKey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+              onVerify={handleCaptchaSubmission}
             />
             <p className="text-xs my-2">
               Cliccando "Invia" si dichiara di aver preso visione
