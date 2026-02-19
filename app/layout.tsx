@@ -59,6 +59,16 @@ export async function generateMetadata() {
     robots:
       seo?.robots || (!isProduction ? "noindex, nofollow" : "index, follow"),
     authors: [{ name: "iFortech", url: process.env.NEXT_PUBLIC_SITE_URL }],
+    manifest: "/site.webmanifest",
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+      shortcut: ["/favicon.ico"],
+    },
   };
 }
 
@@ -75,7 +85,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <link rel="icon" href="/favicon.ico" />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
