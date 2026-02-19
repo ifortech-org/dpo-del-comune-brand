@@ -18,15 +18,16 @@ export function generatePageMetadata({
       ? pageData.canonicalUrl.trim()
       : "";
   const canonical =
-    canonicalOverride || (baseUrl ? `${baseUrl}${canonicalPath}` : canonicalPath);
+    canonicalOverride ||
+    (baseUrl ? `${baseUrl}${canonicalPath}` : canonicalPath);
   const title =
     page?.meta_title ||
     (typeof pageData?.title === "string" ? pageData.title : undefined) ||
-    "iFortech";
+    "DPO Del Comune";
   const description =
     page?.meta_description ||
     (typeof pageData?.excerpt === "string" ? pageData.excerpt : undefined) ||
-    "iFortech";
+    "DPO Del Comune";
   const isArticle = normalizedSlug.startsWith("blog/");
 
   return {
@@ -50,8 +51,8 @@ export function generatePageMetadata({
     robots: !isProduction
       ? "noindex, nofollow"
       : page?.noindex
-      ? "noindex"
-      : "index, follow",
+        ? "noindex"
+        : "index, follow",
     alternates: {
       canonical,
     },

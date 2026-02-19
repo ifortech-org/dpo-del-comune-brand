@@ -14,8 +14,8 @@ const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 export async function generateMetadata() {
   const seo = await client.fetch(GLOBAL_SEO_QUERY);
   return {
-    title: seo?.title || "iFortech",
-    description: seo?.description || "iFortech.",
+    title: seo?.title || "DPO Del Comune",
+    description: seo?.description || "DPO Del Comune.",
     keywords: seo?.keywords || [
       "Next.js",
       "Sanity",
@@ -26,8 +26,8 @@ export async function generateMetadata() {
       "Template",
     ],
     openGraph: {
-      title: seo?.title || "iFortech",
-      description: seo?.description || "iFortech",
+      title: seo?.title || "DPO Del Comune",
+      description: seo?.description || "DPO Del Comune",
       images: [
         seo?.image?.asset?.url
           ? {
@@ -43,12 +43,12 @@ export async function generateMetadata() {
       ],
       locale: "en_US",
       type: "website",
-      siteName: "Schema UI Starter",
+      siteName: "DPO Del Comune",
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.title || "iFortech",
-      description: seo?.description || "iFortech",
+      title: seo?.title || "DPO Del Comune",
+      description: seo?.description || "DPO Del Comune",
       images: [
         seo?.image?.asset?.url
           ? urlFor(seo.image).quality(100).url()
@@ -58,7 +58,9 @@ export async function generateMetadata() {
     },
     robots:
       seo?.robots || (!isProduction ? "noindex, nofollow" : "index, follow"),
-    authors: [{ name: "iFortech", url: process.env.NEXT_PUBLIC_SITE_URL }],
+    authors: [
+      { name: "DPO Del Comune", url: process.env.NEXT_PUBLIC_SITE_URL },
+    ],
     manifest: "/site.webmanifest",
     icons: {
       icon: [
@@ -88,7 +90,7 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
-          fontSans.variable
+          fontSans.variable,
         )}>
         <ThemeProvider
           attribute="class"
