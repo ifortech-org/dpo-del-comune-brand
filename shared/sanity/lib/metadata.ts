@@ -9,10 +9,32 @@ export function generatePageMetadata({
   page: PAGE_QUERYResult | POST_QUERYResult;
   slug: string;
 }) {
+  const pageData = page as Record<string, unknown> | null;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const normalizedSlug = slug === "index" ? "" : slug.replace(/^\/+/, "");
+  const canonicalPath = normalizedSlug ? `/${normalizedSlug}` : "/";
+  const canonicalOverride =
+    typeof pageData?.canonicalUrl === "string"
+      ? pageData.canonicalUrl.trim()
+      : "";
+  const canonical =
+    canonicalOverride || (baseUrl ? `${baseUrl}${canonicalPath}` : canonicalPath);
+  const title =
+    page?.meta_title ||
+    (typeof pageData?.title === "string" ? pageData.title : undefined) ||
+    "iFortech";
+  const description =
+    page?.meta_description ||
+    (typeof pageData?.excerpt === "string" ? pageData.excerpt : undefined) ||
+    "iFortech";
+  const isArticle = normalizedSlug.startsWith("blog/");
+
   return {
-    title: page?.meta_title,
-    description: page?.meta_description,
+    title,
+    description,
     openGraph: {
+      title,
+      description,
       images: [
         {
           url: page?.ogImage
@@ -23,7 +45,7 @@ export function generatePageMetadata({
         },
       ],
       locale: "en_US",
-      type: "website",
+      type: isArticle ? "article" : "website",
     },
     robots: !isProduction
       ? "noindex, nofollow"
@@ -31,7 +53,7 @@ export function generatePageMetadata({
       ? "noindex"
       : "index, follow",
     alternates: {
-      canonical: `/${slug === "index" ? "" : slug}`,
+      canonical,
     },
   };
 }

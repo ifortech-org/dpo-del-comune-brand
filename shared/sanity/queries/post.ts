@@ -3,6 +3,7 @@ import { groq } from "next-sanity";
 export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug][0]{
   title,
   slug,
+  excerpt,
   image{
     ...,
     asset->{
@@ -63,9 +64,11 @@ export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug][0]{
   },
   _createdAt,
   _updatedAt,
+  publishedAt,
   meta_title,
   meta_description,
   noindex,
+  canonicalUrl,
   ogImage {
     asset->{
     _id,

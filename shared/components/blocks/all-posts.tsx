@@ -25,7 +25,9 @@ export default async function AllPosts({
     .flatMap((post) => post?.categories ?? [])
     .map((category) => ({
       title: category.title ?? "",
-      slug: "",
+      slug:
+        (category as { slug?: { current?: string } | null }).slug?.current ??
+        "",
     }));
 
   return (

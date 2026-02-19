@@ -2,7 +2,7 @@
 
 import { Category } from "@/shared/types";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 function CategoryFilter({ categories }: { categories: Category[] }) {
   const uniqueCategories = Array.from(
@@ -14,6 +14,7 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
 
   const router = useRouter();
+  const pathname = usePathname();
 
   // Imposta il valore iniziale di currentCategory dal parametro GET
   useEffect(() => {
@@ -25,12 +26,16 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
   }, []);
 
   useEffect(() => {
-    if (currentCategory) {
-      const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
+    if (currentCategory && currentCategory !== "0") {
       params.set("category", currentCategory);
-      router.push(`?${params.toString()}`);
+    } else {
+      params.delete("category");
     }
-  }, [currentCategory]);
+    const query = params.toString();
+    const currentPath = pathname || "/blog";
+    router.replace(query ? `${currentPath}?${query}` : currentPath);
+  }, [currentCategory, pathname, router]);
 
   return (
     <div className="flex flex-row-reverse items-center">

@@ -75,8 +75,9 @@ const portableTextComponents: PortableTextProps["components"] = {
     normal: ({ children }) => (
       <p style={{ marginBottom: "1rem" }}>{children}</p>
     ),
+    // Keep a single document H1 (the post title) and demote in-body H1s.
     h1: ({ children }) => (
-      <h1 style={{ marginBottom: "1rem", marginTop: "1rem" }}>{children}</h1>
+      <h2 style={{ marginBottom: "1rem", marginTop: "1rem" }}>{children}</h2>
     ),
     h2: ({ children }) => (
       <h2 style={{ marginBottom: "1rem", marginTop: "1rem" }}>{children}</h2>

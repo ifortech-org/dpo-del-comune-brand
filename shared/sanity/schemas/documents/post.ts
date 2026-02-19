@@ -83,6 +83,12 @@ export default defineType({
       group: "content",
     }),
     defineField({
+      name: "publishedAt",
+      title: "Published At",
+      type: "datetime",
+      group: "settings",
+    }),
+    defineField({
       name: "meta_title",
       title: "Meta Title",
       type: "string",
@@ -106,6 +112,13 @@ export default defineType({
       title: "Open Graph Image - [1200x630]",
       type: "image",
       group: "seo",
+    }),
+    defineField({
+      name: "canonicalUrl",
+      title: "Canonical URL",
+      type: "url",
+      group: "seo",
+      description: "Optional absolute canonical URL override for this post.",
     }),
     defineField({
       name: "seo",
