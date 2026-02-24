@@ -33,10 +33,22 @@ export default function GlobalContactModal() {
         setOpen(true);
       }
     };
+    const handleAnchorClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest('a[href="#contact-modal"]');
+      if (!anchor) return;
+      event.preventDefault();
+      setOpen(true);
+      window.history.replaceState(null, "", "#contact-modal");
+    };
 
     handleHashOpen();
     window.addEventListener("hashchange", handleHashOpen);
-    return () => window.removeEventListener("hashchange", handleHashOpen);
+    document.addEventListener("click", handleAnchorClick);
+    return () => {
+      window.removeEventListener("hashchange", handleHashOpen);
+      document.removeEventListener("click", handleAnchorClick);
+    };
   }, []);
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
