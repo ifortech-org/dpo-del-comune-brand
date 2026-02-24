@@ -66,7 +66,7 @@ export default function Hero2({
           ))}
           {contactFormButtonText && (
             <Button variant="secondary" asChild>
-              <Link href="#contact-form">{contactFormButtonText}</Link>
+              <Link href="#contact-modal">{contactFormButtonText}</Link>
             </Button>
           )}
         </div>

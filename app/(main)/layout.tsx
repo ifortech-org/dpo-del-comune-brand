@@ -6,6 +6,7 @@ import { draftMode } from "next/headers";
 import { SanityLive } from "@/shared/sanity/lib/live";
 import { Suspense } from "react";
 import PageTracker from "@/shared/components/PageTracker";
+import GlobalContactModal from "@/shared/components/global-contact-modal";
 
 export default async function MainLayout({
   children,
@@ -16,6 +17,7 @@ export default async function MainLayout({
     <>
       <Header />
       <main>{children}</main>
+      <GlobalContactModal />
       <SanityLive />
       {(await draftMode()).isEnabled && (
         <>
