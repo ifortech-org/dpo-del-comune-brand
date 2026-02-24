@@ -15,6 +15,7 @@ export default function Hero2({
   title,
   body,
   links,
+  contactFormButtonText,
   backgroundImage,
 }: Hero2Props) {
   const containerClassName = backgroundImage
@@ -22,6 +23,8 @@ export default function Hero2({
     : "container dark:bg-background py-20 lg:pt-40 text-center";
 
   const bgImage = backgroundImage ? urlFor(backgroundImage).url() : undefined;
+
+  const hasActions = (links && links.length > 0) || contactFormButtonText;
 
   return (
     <div
@@ -49,13 +52,10 @@ export default function Hero2({
           <PortableTextRenderer value={body} />
         </div>
       )}
-      {links && links.length > 0 && (
+      {hasActions && (
         <div className="mt-10 flex flex-wrap gap-4 justify-center animate-fade-up [animation-delay:400ms] opacity-0">
-          {links.map((link) => (
-            <Button
-              key={link.title}
-              variant={stegaClean(link?.buttonVariant)}
-              asChild>
+          {links?.map((link) => (
+            <Button key={link.title} variant={stegaClean(link?.buttonVariant)} asChild>
               <Link
                 href={link.href as string}
                 target={link.target ? "_blank" : undefined}
@@ -64,6 +64,11 @@ export default function Hero2({
               </Link>
             </Button>
           ))}
+          {contactFormButtonText && (
+            <Button variant="secondary" asChild>
+              <Link href="#contact-form">{contactFormButtonText}</Link>
+            </Button>
+          )}
         </div>
       )}
     </div>

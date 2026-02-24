@@ -640,6 +640,7 @@ export type Hero2 = {
   links?: Array<{
     _key: string;
   } & Link>;
+  contactFormButtonText?: string;
 };
 
 export type Hero1 = {
@@ -1505,6 +1506,7 @@ export type PAGE_QUERYResult = {
     links: Array<{
       _key: string;
     } & Link> | null;
+    contactFormButtonText: string | null;
   } | {
     _type: "logo-cloud-1";
     _key: string;

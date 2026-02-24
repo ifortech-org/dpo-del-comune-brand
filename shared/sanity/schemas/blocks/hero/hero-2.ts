@@ -26,6 +26,13 @@ export default defineType({
       validation: (rule) => rule.max(2),
     }),
     defineField({
+      name: "contactFormButtonText",
+      type: "string",
+      title: "Contact Form Button Text",
+      description:
+        "Se valorizzato, mostra un bottone che apre direttamente il form contatti.",
+    }),
+    defineField({
       name: "backgroundImage",
       title: "Background Image",
       description: "This image will be used as the background.",

@@ -20,7 +20,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { PAGE_QUERYResult } from "@/sanity.types";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -36,6 +36,7 @@ function ContactForm({
   button_text,
   side_image,
 }: ContactFormProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   let imageUrl =
     side_image && side_image.asset?._id ? urlFor(side_image).url() : "";
   let [isVerified, setIsverified] = useState(false);
@@ -47,6 +48,18 @@ function ContactForm({
     request: "",
     description: "",
   });
+
+  useEffect(() => {
+    const handleHashOpen = () => {
+      if (window.location.hash === "#contact-form") {
+        setIsDialogOpen(true);
+      }
+    };
+
+    handleHashOpen();
+    window.addEventListener("hashchange", handleHashOpen);
+    return () => window.removeEventListener("hashchange", handleHashOpen);
+  }, []);
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -114,8 +127,8 @@ function ContactForm({
   }
 
   return (
-    <Dialog>
-      <div className="grid lg:grid-cols-2 bg-muted">
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <div id="contact-form" className="grid lg:grid-cols-2 bg-muted">
         <div
           className="bg-no-repeat bg-cover hidden lg:block"
           style={{
