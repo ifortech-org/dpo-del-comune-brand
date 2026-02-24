@@ -6,6 +6,8 @@ export const gridCardQuery = groq`
     _type,
     _key,
     title,
+    titleAlignment,
+    titleIcon,
     excerpt,
     image{
       ...,

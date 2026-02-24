@@ -345,6 +345,8 @@ export type PricingCard = {
 export type GridCard = {
   _type: "grid-card";
   title?: string;
+  titleAlignment?: "left" | "center" | "right";
+  titleIcon?: string;
   excerpt?: string;
   image?: {
     asset?: {
@@ -1312,6 +1314,8 @@ export type PAGE_QUERYResult = {
       _type: "grid-card";
       _key: string;
       title: string | null;
+      titleAlignment: "left" | "center" | "right" | null;
+      titleIcon: string | null;
       excerpt: string | null;
       image: {
         asset: {

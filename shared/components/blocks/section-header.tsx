@@ -28,7 +28,7 @@ export default function SectionHeader({
       <div
         className={cn(
           align === "center" ? "max-w-[48rem] text-center mx-auto" : undefined,
-          isNarrow ? "max-w-[48rem] mx-auto" : undefined
+          isNarrow ? "max-w-[48rem] mx-auto" : undefined,
         )}>
         <div
           className={cn(color === "primary" ? "text-background" : undefined)}>

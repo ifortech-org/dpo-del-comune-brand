@@ -3,6 +3,8 @@ import { Button } from "@/shared/components/ui/button";
 import { stegaClean } from "next-sanity";
 import Link from "next/link";
 import Image from "next/image";
+import * as LucideIcons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { urlFor } from "@/shared/sanity/lib/image";
 import { PAGE_QUERYResult, ColorVariant } from "@/sanity.types";
 
@@ -18,10 +20,27 @@ interface GridCardProps extends Omit<GridCard, "_type" | "_key"> {
 export default function GridCard({
   color,
   title,
+  titleAlignment,
+  titleIcon,
   excerpt,
   image,
   link,
 }: GridCardProps) {
+  const cleanedTitleAlignment = stegaClean(titleAlignment) ?? "center";
+  const titleAlignmentClass = cn(
+    cleanedTitleAlignment === "left" && "justify-start text-left",
+    cleanedTitleAlignment === "center" && "justify-center text-center",
+    cleanedTitleAlignment === "right" && "justify-end text-right",
+  );
+
+  const cleanedTitleIcon = stegaClean(titleIcon)?.trim();
+  const TitleIcon =
+    cleanedTitleIcon && cleanedTitleIcon in LucideIcons
+      ? (LucideIcons[cleanedTitleIcon as keyof typeof LucideIcons] as
+          | LucideIcon
+          | undefined)
+      : undefined;
+
   return (
     <Link
       key={title}
@@ -33,7 +52,7 @@ export default function GridCard({
           "flex w-full flex-col items-center justify-between overflow-hidden transition ease-in-out rounded-lg p-4",
           color === "primary"
             ? "group-hover:border-primary-foreground/50"
-            : "group-hover:border-primary"
+            : "group-hover:border-primary",
         )}>
         <div>
           {image && image.asset?._id && (
@@ -57,7 +76,11 @@ export default function GridCard({
           <div
             className={cn(color === "primary" ? "text-background" : undefined)}>
             {title && (
-              <div className="flex justify-between items-center mb-4">
+              <div
+                className={cn("mb-4 flex items-center gap-2", titleAlignmentClass)}>
+                {TitleIcon && (
+                  <TitleIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                )}
                 <h3 className="font-bold text-2xl">{title}</h3>
               </div>
             )}

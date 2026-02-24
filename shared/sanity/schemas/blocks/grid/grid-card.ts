@@ -11,6 +11,26 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "titleAlignment",
+      type: "string",
+      title: "Title Alignment",
+      initialValue: "center",
+      options: {
+        list: [
+          { title: "Sinistra", value: "left" },
+          { title: "Centro", value: "center" },
+          { title: "Destra", value: "right" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "titleIcon",
+      type: "string",
+      title: "Title Icon (Lucide name)",
+      description: "Es. Rocket, Mail, ArrowRight",
+    }),
+    defineField({
       name: "excerpt",
       type: "text",
     }),
