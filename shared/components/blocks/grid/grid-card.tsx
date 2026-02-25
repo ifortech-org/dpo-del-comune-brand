@@ -25,6 +25,7 @@ export default function GridCard({
   excerpt,
   image,
   link,
+  showButton,
 }: GridCardProps) {
   const cleanedTitleAlignment = stegaClean(titleAlignment) ?? "center";
   const titleAlignmentClass = cn(
@@ -87,13 +88,15 @@ export default function GridCard({
             {excerpt && <p>{excerpt}</p>}
           </div>
         </div>
-        <Button
-          className="mt-6"
-          size="lg"
-          variant={stegaClean(link?.buttonVariant)}
-          asChild>
-          <div>{link?.title ?? "Learn More"}</div>
-        </Button>
+        {(showButton ?? true) && (
+          <Button
+            className="mt-6"
+            size="lg"
+            variant={stegaClean(link?.buttonVariant)}
+            asChild>
+            <div>{link?.title ?? "Learn More"}</div>
+          </Button>
+        )}
       </div>
     </Link>
   );

@@ -26,5 +26,6 @@ export const gridCardQuery = groq`
       alt
     },
     link,
+    showButton,
   }
 `;

@@ -49,6 +49,12 @@ export default defineType({
       name: "link",
       type: "link",
     }),
+    defineField({
+      name: "showButton",
+      type: "boolean",
+      title: "Mostra bottone",
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {

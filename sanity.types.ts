@@ -347,6 +347,7 @@ export type GridCard = {
   title?: string;
   titleAlignment?: "left" | "center" | "right";
   titleIcon?: string;
+  showButton?: boolean;
   excerpt?: string;
   image?: {
     asset?: {
@@ -1317,6 +1318,7 @@ export type PAGE_QUERYResult = {
       title: string | null;
       titleAlignment: "left" | "center" | "right" | null;
       titleIcon: string | null;
+      showButton: boolean | null;
       excerpt: string | null;
       image: {
         asset: {
