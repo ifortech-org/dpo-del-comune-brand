@@ -40,7 +40,8 @@ export default function CallToAction({
   const sizeClassName = cn(
     cleanedButtonSize === "sm" && "h-8 px-3 text-xs",
     cleanedButtonSize === "default" && "h-10 px-5 text-sm",
-    cleanedButtonSize === "lg" && "h-12 px-8 text-base",
+    cleanedButtonSize === "lg" &&
+      "h-16 px-12 text-xl font-semibold rounded-xl shadow-lg",
   );
 
   if (!buttonText) return null;
