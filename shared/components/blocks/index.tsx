@@ -12,13 +12,12 @@ import LogoCloud1 from "@/shared/components/blocks/logo-cloud/logo-cloud-1";
 import FAQs from "@/shared/components/blocks/faqs";
 import FormNewsletter from "@/shared/components/blocks/forms/newsletter";
 import AllPosts from "@/shared/components/blocks/all-posts";
+import CallToAction from "@/shared/components/blocks/call-to-action";
 import ContactForm from "./contactform";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
-const componentMap: {
-  [K in Block["_type"]]: React.ComponentType<Extract<Block, { _type: K }>>;
-} = {
+const componentMap: Record<string, React.ComponentType<any>> = {
   "hero-1": Hero1,
   "hero-2": Hero2,
   "section-header": SectionHeader,
@@ -33,6 +32,7 @@ const componentMap: {
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
   contactform: ContactForm,
+  "call-to-action": CallToAction,
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {

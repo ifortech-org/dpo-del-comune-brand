@@ -54,6 +54,7 @@ export default defineType({
         { type: "form-newsletter" },
         { type: "all-posts" },
         { type: "contactform" },
+        { type: "call-to-action" },
       ],
       options: {
         insertMenu: {
@@ -96,7 +97,7 @@ export default defineType({
             {
               name: "cta",
               title: "CTA",
-              of: ["cta-1"],
+              of: ["cta-1", "call-to-action"],
             },
             {
               name: "faqs",
