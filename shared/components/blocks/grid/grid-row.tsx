@@ -28,6 +28,12 @@ export default function GridRow({
   title,
 }: GridRow) {
   const color = stegaClean(colorVariant);
+  const cleanedGridColumns = stegaClean(gridColumns);
+  const gridColumnsClass = cn(
+    cleanedGridColumns === "grid-cols-2" && "lg:grid-cols-2",
+    cleanedGridColumns === "grid-cols-3" && "lg:grid-cols-3",
+    cleanedGridColumns === "grid-cols-4" && "lg:grid-cols-4",
+  );
 
   return (
     <SectionContainer color={color} padding={padding}>
@@ -35,8 +41,8 @@ export default function GridRow({
       {columns && columns?.length > 0 && (
         <div
           className={cn(
-            `grid grid-cols-1 gap-6`,
-            `lg:${stegaClean(gridColumns)}`
+            "grid grid-cols-1 gap-6",
+            gridColumnsClass,
           )}>
           {columns.map((column) => {
             const Component = componentMap[column._type];
