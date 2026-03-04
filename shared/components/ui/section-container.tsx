@@ -14,10 +14,18 @@ export default function SectionContainer({
   children,
   className,
 }: SectionContainerProps) {
+  const textColorClass =
+    color === "primary"
+      ? "text-primary-foreground"
+      : color === "secondary"
+        ? "text-secondary-foreground"
+        : "";
+
   return (
     <div
       className={cn(
         `bg-${color} relative`,
+        textColorClass,
         padding?.top ? "pt-16 xl:pt-20" : "pt-4",
         padding?.bottom ? "pb-16 xl:pb-20" : "pb-4",
         className,
