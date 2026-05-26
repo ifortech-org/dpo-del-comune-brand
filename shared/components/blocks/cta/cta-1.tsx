@@ -21,6 +21,9 @@ export default function Cta1({
   body,
   links,
 }: Cta1Props) {
+  const validLinks = (links ?? []).filter(
+    (link: any) => typeof link?.href === "string" && link.href.trim().length > 0
+  );
   const isNarrow = stegaClean(sectionWidth) === "narrow";
   const align = stegaClean(stackAlign);
   const color = stegaClean(colorVariant);
@@ -42,21 +45,19 @@ export default function Cta1({
           <h2 className="mb-4">{title}</h2>
           {body && <PortableTextRenderer value={body} />}
         </div>
-        {links && links.length > 0 && (
+        {validLinks.length > 0 && (
           <div
             className={cn(
               "mt-10 flex flex-wrap gap-4",
               align === "center" ? "justify-center" : undefined
             )}>
-            {links &&
-              links.length > 0 &&
-              links.map((link: any) => (
+            {validLinks.map((link: any, index: number) => (
                 <Button
-                  key={link.title}
+                  key={link._key ?? link.href ?? `${link.title ?? "link"}-${index}`}
                   variant={stegaClean(link?.buttonVariant)}
                   asChild>
                   <Link
-                    href={link.href as string}
+                    href={link.href}
                     target={link.target ? "_blank" : undefined}
                     rel={link.target ? "noopener" : undefined}>
                     {link.title}

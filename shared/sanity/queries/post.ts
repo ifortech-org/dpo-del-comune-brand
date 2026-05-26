@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
 
-export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug][0]{
+export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug && defined(publishedAt) && publishedAt <= now()][0]{
   title,
   slug,
   excerpt,

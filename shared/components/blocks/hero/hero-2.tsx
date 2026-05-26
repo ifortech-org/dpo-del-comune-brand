@@ -18,13 +18,16 @@ export default function Hero2({
   contactFormButtonText,
   backgroundImage,
 }: Hero2Props) {
+  const validLinks = (links ?? []).filter(
+    (link: any) => typeof link?.href === "string" && link.href.trim().length > 0
+  );
   const containerClassName = backgroundImage
     ? "dark:bg-background py-20 lg:pt-40 text-center text-white relative"
     : "container dark:bg-background py-20 lg:pt-40 text-center";
 
   const bgImage = backgroundImage ? urlFor(backgroundImage).url() : undefined;
 
-  const hasActions = (links && links.length > 0) || contactFormButtonText;
+  const hasActions = validLinks.length > 0 || contactFormButtonText;
 
   return (
     <div
@@ -54,10 +57,13 @@ export default function Hero2({
       )}
       {hasActions && (
         <div className="mt-10 flex flex-wrap gap-4 justify-center animate-fade-up [animation-delay:400ms] opacity-0">
-          {links?.map((link: any) => (
-            <Button key={link.title} variant={stegaClean(link?.buttonVariant)} asChild>
+          {validLinks.map((link: any, index: number) => (
+            <Button
+              key={link._key ?? link.href ?? `${link.title ?? "link"}-${index}`}
+              variant={stegaClean(link?.buttonVariant)}
+              asChild>
               <Link
-                href={link.href as string}
+                href={link.href}
                 target={link.target ? "_blank" : undefined}
                 rel={link.target ? "noopener" : undefined}>
                 {link.title}

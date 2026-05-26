@@ -18,6 +18,10 @@ export default function Hero1({
   image,
   links,
 }: Hero1Props) {
+  const validLinks = (links ?? []).filter(
+    (link: any) => typeof link?.href === "string" && link.href.trim().length > 0
+  );
+
   return (
     <div className="container dark:bg-background py-20 lg:pt-40">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -37,15 +41,15 @@ export default function Hero1({
               <PortableTextRenderer value={body} />
             </div>
           )}
-          {links && links.length > 0 && (
+          {validLinks.length > 0 && (
             <div className="mt-10 flex flex-wrap gap-4 animate-fade-up [animation-delay:400ms] opacity-0">
-              {links.map((link: any) => (
+              {validLinks.map((link: any, index: number) => (
                 <Button
-                  key={link.title}
+                  key={link._key ?? link.href ?? `${link.title ?? "link"}-${index}`}
                   variant={stegaClean(link?.buttonVariant)}
                   asChild>
                   <Link
-                    href={link.href as string}
+                    href={link.href}
                     target={link.target ? "_blank" : undefined}
                     rel={link.target ? "noopener" : undefined}>
                     {link.title}

@@ -1,4 +1,5 @@
 import { sanityFetch } from "@/shared/sanity/lib/live";
+import { client } from "@/shared/sanity/lib/client";
 import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/shared/sanity/queries/page";
 import {
   POST_QUERY,
@@ -42,14 +43,13 @@ export const fetchSanityPagesStaticParams =
   };
 
 export const fetchSanityPosts = async (): Promise<POSTS_QUERYResult> => {
-  const { data } = await sanityFetch({
-    query: POSTS_QUERY,
-    tags: ["post", "category"],
+  return await client.fetch(POSTS_QUERY, {}, {
     perspective: "published",
     stega: false,
+    next: {
+      revalidate: 300,
+    },
   });
-
-  return data;
 };
 
 export const fetchSanityPostBySlug = async ({

@@ -12,6 +12,7 @@ import BlogContactForm from "@/shared/components/blog/blog-contact-form";
 import { urlFor } from "@/shared/sanity/lib/image";
 
 export const revalidate = 300;
+export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();

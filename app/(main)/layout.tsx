@@ -13,13 +13,15 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isDraftModeEnabled = (await draftMode()).isEnabled;
+
   return (
     <>
       <Header />
       <main>{children}</main>
       <GlobalContactModal />
-      <SanityLive />
-      {(await draftMode()).isEnabled && (
+      {isDraftModeEnabled && <SanityLive />}
+      {isDraftModeEnabled && (
         <>
           <DisableDraftMode />
           <VisualEditing />
