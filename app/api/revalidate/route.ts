@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 type WebhookPayload = {
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
 
   const slug = getSlug(payload);
   const paths = new Set<string>(["/", "/blog", "/sitemap.xml"]);
+  const tags = new Set<string>(["sanity"]);
 
   if (payload._type === "post" && slug) {
     paths.add(`/blog/${slug}`);
@@ -45,12 +46,37 @@ export async function POST(request: NextRequest) {
     paths.add(slug === "index" ? "/" : `/${slug}`);
   }
 
+  if (payload._type === "post") {
+    tags.add("post");
+    tags.add("category");
+    tags.add("author");
+  }
+
+  if (payload._type === "page") {
+    tags.add("page");
+  }
+
+  if (payload._type === "category") {
+    tags.add("category");
+    tags.add("post");
+  }
+
+  if (payload._type === "author") {
+    tags.add("author");
+    tags.add("post");
+  }
+
   for (const path of paths) {
     revalidatePath(path);
+  }
+
+  for (const tag of tags) {
+    revalidateTag(tag);
   }
 
   return NextResponse.json({
     ok: true,
     revalidated: Array.from(paths),
+    tags: Array.from(tags),
   });
 }
