@@ -20,6 +20,9 @@ async function getPagesSitemap(): Promise<MetadataRoute.Sitemap> {
     params: {
       baseUrl: process.env.NEXT_PUBLIC_SITE_URL,
     },
+    tags: ["page", "sitemap"],
+    perspective: "published",
+    stega: false,
   });
 
   return data;
@@ -40,6 +43,9 @@ async function getPostsSitemap(): Promise<MetadataRoute.Sitemap> {
     params: {
       baseUrl: process.env.NEXT_PUBLIC_SITE_URL,
     },
+    tags: ["post", "sitemap"],
+    perspective: "published",
+    stega: false,
   });
 
   return data;
