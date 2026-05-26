@@ -70,6 +70,10 @@ export async function POST(request: NextRequest) {
     revalidatePath(path);
   }
 
+  if (payload._type === "post") {
+    revalidatePath("/blog/[slug]", "page");
+  }
+
   for (const tag of tags) {
     revalidateTag(tag);
   }
