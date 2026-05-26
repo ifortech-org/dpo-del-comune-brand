@@ -38,7 +38,7 @@ export default function SplitRow({
             "grid grid-cols-1 lg:grid-cols-2",
             noGap ? "gap-0" : "gap-12 lg:gap-20"
           )}>
-          {splitColumns?.map((column) => {
+          {splitColumns?.map((column: any) => {
             const Component = componentMap[column._type];
             if (!Component) {
               // Fallback for development/debugging of new component types

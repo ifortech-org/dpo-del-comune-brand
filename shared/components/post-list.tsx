@@ -60,8 +60,8 @@ function PostList({ posts }: { posts: POSTS_QUERYResult }) {
             <PostCard
               title={post?.title ?? ""}
               excerpt={post?.excerpt ?? ""}
-              image={post?.image ?? null}
-              categories={post?.categories ?? null}
+              image={post?.image ?? undefined}
+              categories={post?.categories ?? undefined}
             />
           </Link>
         );

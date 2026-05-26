@@ -50,7 +50,7 @@ export default function Cta1({
             )}>
             {links &&
               links.length > 0 &&
-              links.map((link) => (
+              links.map((link: any) => (
                 <Button
                   key={link.title}
                   variant={stegaClean(link?.buttonVariant)}

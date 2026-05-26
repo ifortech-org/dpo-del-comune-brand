@@ -36,7 +36,7 @@ export default function Carousel2({
       {testimonial && testimonial.length > 0 && (
         <Carousel>
           <CarouselContent>
-            {testimonial.map((item) => (
+            {testimonial.map((item: any) => (
               <CarouselItem
                 key={item._id}
                 className="pl-2 md:pl-4 md:basis-1/3">

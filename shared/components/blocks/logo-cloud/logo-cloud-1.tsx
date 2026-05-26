@@ -43,7 +43,7 @@ export default function LogoCloud1({
           className="flex w-max gap-24 pr-24">
           {[...new Array(2)].map((_, arrayIndex) => (
             <Fragment key={arrayIndex}>
-              {images?.map((image, index) => (
+              {images?.map((image: any, index: number) => (
                 <div
                   key={`${image.asset?._id}-${arrayIndex}-${index}`}
                   className="shrink-0 w-24 h-24 flex items-center justify-center">

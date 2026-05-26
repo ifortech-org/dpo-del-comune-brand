@@ -1210,6 +1210,97 @@ export type PostsQueryResult = Array<{
   priority: 0.7;
 }>;
 
+// Backward-compatible query aliases used across the app.
+type SanityQueryAsset = {
+  _id?: string;
+  url?: string;
+  mimeType?: string;
+  metadata?: {
+    lqip?: string;
+    dimensions?: {
+      width?: number;
+      height?: number;
+    };
+  };
+};
+
+type SanityQueryImage = {
+  asset?: SanityQueryAsset;
+  alt?: string;
+  [key: string]: any;
+};
+
+type SanityQueryCategory = {
+  _id?: string;
+  title?: string;
+  slug?: {
+    current?: string;
+  } | null;
+  [key: string]: any;
+};
+
+type SanityQueryAuthor = {
+  name?: string;
+  image?: SanityQueryImage;
+  [key: string]: any;
+};
+
+type SanityQueryBlock = {
+  _key: string;
+  _type: any;
+  [key: string]: any;
+};
+
+export type PAGE_QUERYResult = {
+  blocks?: SanityQueryBlock[];
+  meta_title?: string;
+  meta_description?: string;
+  noindex?: boolean;
+  ogImage?: SanityQueryImage;
+} | null;
+
+export type PAGES_SLUGS_QUERYResult = Array<{
+  slug?: {
+    current?: string;
+  } | null;
+}>;
+
+export type POST_QUERYResult = {
+  title?: string;
+  slug?: {
+    current?: string;
+  } | null;
+  excerpt?: string;
+  image?: SanityQueryImage;
+  body?: any[];
+  author?: SanityQueryAuthor;
+  categories?: SanityQueryCategory[];
+  _createdAt?: string;
+  _updatedAt?: string;
+  publishedAt?: string;
+  meta_title?: string;
+  meta_description?: string;
+  noindex?: boolean;
+  canonicalUrl?: string;
+  ogImage?: SanityQueryImage;
+} | null;
+
+export type POSTS_QUERYResult = Array<{
+  title?: string;
+  slug?: {
+    current?: string;
+  } | null;
+  excerpt?: string;
+  image?: SanityQueryImage;
+  categories?: SanityQueryCategory[];
+}>;
+
+export type POSTS_SLUGS_QUERYResult = Array<{
+  slug?: {
+    current?: string;
+  } | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {

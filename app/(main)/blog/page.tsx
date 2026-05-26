@@ -9,8 +9,21 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   const canonical = baseUrl ? `${baseUrl}/blog` : "/blog";
+  const metadataBase = (() => {
+    if (!baseUrl) return undefined;
+    const normalizedBaseUrl = /^https?:\/\//i.test(baseUrl)
+      ? baseUrl
+      : `https://${baseUrl}`;
+
+    try {
+      return new URL(normalizedBaseUrl);
+    } catch {
+      return undefined;
+    }
+  })();
 
   return {
+    metadataBase,
     title: "Blog",
     description: "Ultime notizie, approfondimenti e aggiornamenti.",
     alternates: {

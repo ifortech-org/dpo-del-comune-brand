@@ -69,7 +69,7 @@ export default function SplitCardsItem({
             "flex flex-wrap gap-3 mt-4 transition-colors duration-1000 ease-in-out",
             isInView ? "text-background" : "text-foreground"
           )}>
-          {tags.map((tag) => (
+          {tags.map((tag: string) => (
             <Badge
               key={tag}
               className={cn(

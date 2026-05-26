@@ -54,7 +54,7 @@ export default function Hero2({
       )}
       {hasActions && (
         <div className="mt-10 flex flex-wrap gap-4 justify-center animate-fade-up [animation-delay:400ms] opacity-0">
-          {links?.map((link) => (
+          {links?.map((link: any) => (
             <Button key={link.title} variant={stegaClean(link?.buttonVariant)} asChild>
               <Link
                 href={link.href as string}

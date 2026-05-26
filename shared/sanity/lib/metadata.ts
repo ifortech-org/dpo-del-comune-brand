@@ -11,6 +11,18 @@ export function generatePageMetadata({
 }) {
   const pageData = page as Record<string, unknown> | null;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const metadataBase = (() => {
+    if (!baseUrl) return undefined;
+    const normalizedBaseUrl = /^https?:\/\//i.test(baseUrl)
+      ? baseUrl
+      : `https://${baseUrl}`;
+
+    try {
+      return new URL(normalizedBaseUrl);
+    } catch {
+      return undefined;
+    }
+  })();
   const normalizedSlug = slug === "index" ? "" : slug.replace(/^\/+/, "");
   const canonicalPath = normalizedSlug ? `/${normalizedSlug}` : "/";
   const canonicalOverride =
@@ -31,6 +43,7 @@ export function generatePageMetadata({
   const isArticle = normalizedSlug.startsWith("blog/");
 
   return {
+    metadataBase,
     title,
     description,
     openGraph: {

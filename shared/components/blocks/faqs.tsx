@@ -20,7 +20,7 @@ export default function FAQs({ padding, colorVariant, faqs }: FAQProps) {
     <SectionContainer color={color} padding={padding}>
       {faqs && faqs?.length > 0 && (
         <Accordion className="space-y-4" type="multiple">
-          {faqs.map((faq) => (
+          {faqs.map((faq: any) => (
             <AccordionItem key={faq.title} value={`item-${faq._id}`}>
               <AccordionTrigger>{faq.title}</AccordionTrigger>
               <AccordionContent>

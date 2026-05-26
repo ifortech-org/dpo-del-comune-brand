@@ -9,7 +9,8 @@ type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 type TimelineRow = Extract<Block, { _type: "timeline-row" }>;
 type Timeline1 = NonNullable<NonNullable<TimelineRow["timelines"]>>[number];
 
-interface Timeline1Props extends Timeline1 {
+interface Timeline1Props
+  extends Pick<Timeline1, "title" | "tagLine" | "body"> {
   color?: ColorVariant;
 }
 

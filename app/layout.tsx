@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { ThemeProvider } from "@/shared/components/theme-provider";
@@ -13,7 +12,22 @@ const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
 export async function generateMetadata() {
   const seo = await client.fetch(GLOBAL_SEO_QUERY);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const metadataBase = (() => {
+    if (!siteUrl) return undefined;
+    const normalizedSiteUrl = /^https?:\/\//i.test(siteUrl)
+      ? siteUrl
+      : `https://${siteUrl}`;
+
+    try {
+      return new URL(normalizedSiteUrl);
+    } catch {
+      return undefined;
+    }
+  })();
+
   return {
+    metadataBase,
     title: seo?.title || "DPO Del Comune",
     description: seo?.description || "DPO Del Comune.",
     keywords: seo?.keywords || [
@@ -74,12 +88,6 @@ export async function generateMetadata() {
   };
 }
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-sans",
-});
-
 export default function RootLayout({
   children,
 }: {
@@ -90,7 +98,6 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
-          fontSans.variable,
         )}>
         <ThemeProvider
           attribute="class"

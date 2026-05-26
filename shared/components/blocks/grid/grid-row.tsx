@@ -44,7 +44,7 @@ export default function GridRow({
             "grid grid-cols-1 gap-6",
             gridColumnsClass,
           )}>
-          {columns.map((column) => {
+          {columns.map((column: any) => {
             const Component = componentMap[column._type];
             if (!Component) {
               // Fallback for development/debugging of new component types

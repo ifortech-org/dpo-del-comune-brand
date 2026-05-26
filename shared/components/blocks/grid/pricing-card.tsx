@@ -47,7 +47,7 @@ export default function PricingCard({
           )}
           {list && list.length > 0 && (
             <ul className="flex flex-col gap-2 my-8">
-              {list.map((item) => (
+              {list.map((item: string) => (
                 <li key={item} className="flex items-center gap-2">
                   <Check size={16} />
                   <span>{item}</span>

@@ -13,7 +13,8 @@ type SplitCardsList = Extract<
 >;
 type SplitCardItem = NonNullable<NonNullable<SplitCardsList["list"]>[number]>;
 
-interface SplitCardsItemProps extends SplitCardItem {
+interface SplitCardsItemProps
+  extends Pick<SplitCardItem, "tagLine" | "title" | "body"> {
   color?: ColorVariant;
 }
 

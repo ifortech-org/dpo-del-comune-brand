@@ -35,8 +35,8 @@ type Carousel1 = Extract<
 
 interface Carousel1Props
   extends Omit<NonNullable<Carousel1>, "_type" | "_key"> {
-  size: CarouselSize | null;
-  indicators: "none" | "dots" | "count" | null;
+  size?: CarouselSize | null;
+  indicators?: "none" | "dots" | "count" | null;
 }
 
 export default function Carousel1({
@@ -55,7 +55,7 @@ export default function Carousel1({
       {images && images.length > 0 && (
         <Carousel>
           <CarouselContent>
-            {images.map((image, index) => (
+            {images.map((image: any, index: number) => (
               <CarouselItem
                 key={`${index}-${image.alt}`}
                 className={CAROUSEL_SIZES[stegaSize]}>
