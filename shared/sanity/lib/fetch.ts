@@ -21,6 +21,8 @@ export const fetchSanityPageBySlug = async ({
   const { data } = await sanityFetch({
     query: PAGE_QUERY,
     params: { slug },
+    perspective: "published",
+    stega: false,
   });
 
   return data;
@@ -40,6 +42,8 @@ export const fetchSanityPagesStaticParams =
 export const fetchSanityPosts = async (): Promise<POSTS_QUERYResult> => {
   const { data } = await sanityFetch({
     query: POSTS_QUERY,
+    perspective: "published",
+    stega: false,
   });
 
   return data;
@@ -53,6 +57,8 @@ export const fetchSanityPostBySlug = async ({
   const { data } = await sanityFetch({
     query: POST_QUERY,
     params: { slug },
+    perspective: "published",
+    stega: false,
   });
 
   return data;
