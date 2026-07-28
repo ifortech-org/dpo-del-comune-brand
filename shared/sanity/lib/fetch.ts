@@ -1,7 +1,9 @@
 import { sanityFetch } from "@/shared/sanity/lib/live";
 import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/shared/sanity/queries/page";
 import {
+  CATEGORIES_QUERY,
   POST_QUERY,
+  POSTS_PAGE_QUERY,
   POSTS_QUERY,
   POSTS_SLUGS_QUERY,
 } from "@/shared/sanity/queries/post";
@@ -12,6 +14,12 @@ import {
   POSTS_QUERYResult,
   POSTS_SLUGS_QUERYResult,
 } from "@/sanity.types";
+import { Category } from "@/shared/types";
+
+type PaginatedPostsResult = {
+  items: POSTS_QUERYResult;
+  total: number;
+};
 
 export const fetchSanityPageBySlug = async ({
   slug,
@@ -50,6 +58,46 @@ export const fetchSanityPosts = async (): Promise<POSTS_QUERYResult> => {
   });
 
   return data;
+};
+
+export const fetchSanityPostsPage = async ({
+  start = 0,
+  limit = 20,
+  category = "",
+}: {
+  start?: number;
+  limit?: number;
+  category?: string;
+}): Promise<PaginatedPostsResult> => {
+  const { data } = await sanityFetch({
+    query: POSTS_PAGE_QUERY,
+    params: {
+      start,
+      end: start + limit,
+      category,
+    },
+    tags: ["post", "author", "category"],
+    perspective: "published",
+    stega: false,
+  });
+
+  return data as PaginatedPostsResult;
+};
+
+export const fetchSanityCategories = async (): Promise<Category[]> => {
+  const { data } = await sanityFetch({
+    query: CATEGORIES_QUERY,
+    tags: ["category"],
+    perspective: "published",
+    stega: false,
+  });
+
+  return (data as Array<{ title?: string; slug?: { current?: string } | null }>)
+    .map((category) => ({
+      title: category.title ?? "",
+      slug: category.slug?.current ?? "",
+    }))
+    .filter((category) => category.title);
 };
 
 export const fetchSanityPostBySlug = async ({

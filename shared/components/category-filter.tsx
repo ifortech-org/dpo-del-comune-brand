@@ -2,7 +2,7 @@
 
 import { Category } from "@/shared/types";
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function CategoryFilter({ categories }: { categories: Category[] }) {
   const uniqueCategories = Array.from(
@@ -15,18 +15,14 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
 
   const router = useRouter();
   const pathname = usePathname();
-
-  // Imposta il valore iniziale di currentCategory dal parametro GET
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const categoryParam = params.get("category");
-    if (categoryParam) {
-      setCurrentCategory(categoryParam);
-    }
-  }, []);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    setCurrentCategory(searchParams?.get("category") ?? null);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams?.toString());
     if (currentCategory && currentCategory !== "0") {
       params.set("category", currentCategory);
     } else {
@@ -35,7 +31,7 @@ function CategoryFilter({ categories }: { categories: Category[] }) {
     const query = params.toString();
     const currentPath = pathname || "/blog";
     router.replace(query ? `${currentPath}?${query}` : currentPath);
-  }, [currentCategory, pathname, router]);
+  }, [currentCategory, pathname, router, searchParams]);
 
   return (
     <div className="flex flex-row-reverse items-center">

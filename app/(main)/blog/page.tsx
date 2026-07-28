@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import CategoryFilter from "@/shared/components/category-filter";
 import PostList from "@/shared/components/post-list";
-import { fetchSanityPosts } from "@/shared/sanity/lib/fetch";
-import { Category } from "@/shared/types";
+import {
+  fetchSanityCategories,
+  fetchSanityPostsPage,
+} from "@/shared/sanity/lib/fetch";
 
 export const revalidate = 300;
 
@@ -32,16 +34,22 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage() {
-  const posts = await fetchSanityPosts();
-  const categories: Category[] = posts
-    .flatMap((post) => post?.categories ?? [])
-    .map((category) => ({
-      title: category.title ?? "",
-      slug:
-        (category as { slug?: { current?: string } | null }).slug?.current ??
-        "",
-    }));
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ category?: string | string[] }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const categoryParam = resolvedSearchParams?.category;
+  const category =
+    typeof categoryParam === "string"
+      ? categoryParam
+      : categoryParam?.[0] ?? "";
+
+  const [categories, paginatedPosts] = await Promise.all([
+    fetchSanityCategories(),
+    fetchSanityPostsPage({ category }),
+  ]);
 
   return (
     <section>
@@ -50,7 +58,11 @@ export default async function BlogPage() {
           <h1 className="font-semibold text-xl self-center">Ultime notizie</h1>
           <CategoryFilter categories={categories} />
         </div>
-        <PostList posts={posts} />
+        <PostList
+          initialPosts={paginatedPosts.items}
+          initialTotal={paginatedPosts.total}
+          initialCategory={category}
+        />
       </div>
     </section>
   );

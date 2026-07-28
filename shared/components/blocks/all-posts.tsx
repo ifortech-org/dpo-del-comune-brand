@@ -1,10 +1,12 @@
 import SectionContainer from "@/shared/components/ui/section-container";
 
 import { stegaClean } from "next-sanity";
-import { fetchSanityPosts } from "@/shared/sanity/lib/fetch";
+import {
+  fetchSanityCategories,
+  fetchSanityPostsPage,
+} from "@/shared/sanity/lib/fetch";
 import { PAGE_QUERYResult } from "@/sanity.types";
 import CategoryFilter from "@/shared/components/category-filter";
-import { Category } from "@/shared/types";
 
 import PostList from "../post-list";
 import React from "react";
@@ -19,16 +21,10 @@ export default async function AllPosts({
   colorVariant,
 }: AllPostsProps) {
   const color = stegaClean(colorVariant);
-  const posts = await fetchSanityPosts();
-
-  const categories: Category[] = posts
-    .flatMap((post) => post?.categories ?? [])
-    .map((category) => ({
-      title: category.title ?? "",
-      slug:
-        (category as { slug?: { current?: string } | null }).slug?.current ??
-        "",
-    }));
+  const [categories, paginatedPosts] = await Promise.all([
+    fetchSanityCategories(),
+    fetchSanityPostsPage({}),
+  ]);
 
   return (
     <SectionContainer color={color} padding={padding}>
@@ -39,7 +35,10 @@ export default async function AllPosts({
           <CategoryFilter categories={categories} />
         </div>
 
-        <PostList posts={posts} />
+        <PostList
+          initialPosts={paginatedPosts.items}
+          initialTotal={paginatedPosts.total}
+        />
       </React.Suspense>
     </SectionContainer>
   );
